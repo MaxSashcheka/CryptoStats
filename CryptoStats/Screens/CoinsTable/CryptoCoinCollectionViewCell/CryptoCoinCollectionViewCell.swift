@@ -9,9 +9,12 @@ import UIKit
 
 class CryptoCoinCollectionViewCell: UICollectionViewCell {
 
+    static let reuseIdentifier = "CryptoCoinCollectionViewCell"
+    static var nib: UINib { UINib(nibName: reuseIdentifier, bundle: nil) }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
     }
 
 }

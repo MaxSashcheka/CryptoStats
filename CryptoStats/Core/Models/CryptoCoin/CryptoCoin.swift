@@ -7,11 +7,27 @@
 
 import Foundation
 
-struct CryptoCoin: Codable {
-    var id: String
-    var symbol: String
-    var name: String
-    var image: String
-    var currentPrice: Int
+struct CryptoCoin: Decodable {
+    let id: String
+    let symbol: String
+    let name: String
+    let image: URL
+    let currentPrice: Float
+    let highestPricePerLastDay: Float
+    let lowestPricePerLastDay: Float
+    let priceChangePercentagePerLastDay: Float
+    
+    private enum CodingKeys: String, CodingKey {
+        case id = "id"
+        case symbol = "symbol"
+        case name = "name"
+        case image = "image"
+        case currentPrice = "current_price"
+        case highestPricePerLastDay = "high_24h"
+        case lowestPricePerLastDay = "low_24h"
+        case priceChangePercentagePerLastDay = "price_change_percentage_24h"
+    }
+    
+    
 }
 

@@ -5,6 +5,10 @@
 //  Created by Max Sashcheka on 9.02.22.
 //
 
-import Foundation
+import UIKit
 
-public typealias VoidClosure = () -> Void
+
+typealias VoidClosure = () -> Void
+typealias ErrorClosure = (Error) -> Void
+typealias AnyClosure = (Any) -> Void
+

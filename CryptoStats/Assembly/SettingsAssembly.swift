@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+class SettingsAssembly: Assembly {
+    static func makeSettingsScreen() -> SettingsViewController {
+        let viewController = SettingsViewController.instaniate()
+        
+        return viewController
+    }
+    
+}

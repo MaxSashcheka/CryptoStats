@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+class CryptoCoinsAPIDataManager {
+//    func getCryptoCoins(currency: String, success: @escaping [CryptoCoin] -> Void, failure: @escaping APIErrorClosure) {
+//        APIClient.getCryptoCoins(currency: currency, success: { cryptoKeysResponceEntities in
+//            print(cryptoKeysResponceEntities)
+//        }, failure: failure)
+//    }
+}

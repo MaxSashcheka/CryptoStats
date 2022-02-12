@@ -8,22 +8,19 @@
 import UIKit
 
 class MainTabBarController: UITabBarController {
+    
+    let coinsCoordinator = CoinsCoordinator(navigationController: UINavigationController())
+    let settingsCoordinator = SettingsCoordinator(navigationController: UINavigationController())
 
     override func viewDidLoad() {
         super.viewDidLoad()
+//        tabBar.backgroundColor = .secondarySystemBackground
+//        let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
+//        tabBarAppearance.configureWithDefaultBackground()
 
-        // Do any additional setup after loading the view.
+        coinsCoordinator.start()
+        settingsCoordinator.start()
+        viewControllers = [coinsCoordinator.navigationController, settingsCoordinator.navigationController]
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

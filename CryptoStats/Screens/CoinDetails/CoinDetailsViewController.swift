@@ -13,7 +13,6 @@ class CoinDetailsViewController: ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
     }
 
