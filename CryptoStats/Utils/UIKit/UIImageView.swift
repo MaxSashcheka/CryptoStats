@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIImageView {
-    public func imageFromUrl(url: URL) {
+    func imageFromUrl(url: URL) {
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, responce, error in
             if let data = data {
@@ -19,5 +19,20 @@ extension UIImageView {
                 self.image = UIImage()
             }
         }.resume()
+    }
+}
+
+extension UIImage {
+    static func from(url: URL) -> UIImage? {
+        var image: UIImage?
+        let request = URLRequest(url: url)
+        
+        URLSession.shared.dataTask(with: request) { data, responce, error in
+            if let data = data {
+                image = UIImage(data: data)
+            }
+        }.resume()
+        
+        return image
     }
 }

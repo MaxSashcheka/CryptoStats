@@ -11,67 +11,80 @@ class CoinsTableViewController: ViewController {
     
     var openDetailScreenTransition: VoidClosure?
     var cryptoCoinsAPIDataManager = CryptoCoinsAPIDataManager()
-    private let networkService = DefaultNetworkService()
-    var coins = [CryptoCoin]()
     
-    @IBOutlet weak var coinsTableView: UITableView! {
+    @IBOutlet weak var coinsCollectionView: UICollectionView! {
         didSet {
-            coinsTableView.register(CoinTableViewCell.nib, forCellReuseIdentifier: CoinTableViewCell.reuseIdentifier)
-            coinsTableView.delegate = self
-            coinsTableView.dataSource = self
-//            coinsTableView.tableFooterView = UIView()
-            coinsTableView.separatorColor = .red
-            coinsTableView.rowHeight = 70
+            coinsCollectionView.register(CryptoCoinCell.nib, forCellWithReuseIdentifier: CryptoCoinCell.reuseIdentifier)
+            coinsCollectionView.delegate = self
+            coinsCollectionView.dataSource = self
         }
     }
+    let coinsCollectionViewInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
     
-//    var viewModel: CoinsTableViewModel!
+    var viewModel: CoinsTableViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Crypto coins"
-        let cryptoCoinsRequest = Requests.CryptoCoinsRequest()
-        networkService.request(cryptoCoinsRequest) { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let cryptoCoins):
-                self.coins = cryptoCoins
-                DispatchQueue.main.async {
-                    self.coinsTableView.reloadData()
-                }
-                
-            case .failure(let error): print(error.localizedDescription)
-            }
-            print("End")
-        }
+        
+        bindData()
+        viewModel.fetchCryptoCoins()
     }
 
     @IBAction func buttonTapped(_ sender: Any) {
         openDetailScreenTransition?()
+    }
+    
+    func bindData() {
+        viewModel.cryptoCoinsViewModels
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                self?.coinsCollectionView.reloadData()
+            })
+            .disposed(by: disposeBag)
     }
 
 }
 
 
 // MARK: CoinsTableViewController+UITableViewDelegate&UITableViewDataSource
-extension CoinsTableViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return coins.count
+extension CoinsTableViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        viewModel.cryptoCoinsViewModels.value.count ?? 0
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CoinTableViewCell.reuseIdentifier, for: indexPath)
-                as? CoinTableViewCell else {
-            assertionFailure("Cannot deque reusable cell for \(CoinTableViewCell.reuseIdentifier) identifier")
-            return UITableViewCell()
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CryptoCoinCell.reuseIdentifier, for: indexPath)
+                as? CryptoCoinCell else {
+            assertionFailure("Can`t deque reusable cell for \(CryptoCoinCell.reuseIdentifier) identifier")
+            return UICollectionViewCell()
         }
-        cell.coinNameLabel.text = coins[indexPath.row].name
-        cell.coinImageView.imageFromUrl(url: coins[indexPath.row].image)
-
+        
+        cell.viewModel = viewModel.cryptoCoinsViewModels.value[indexPath.row]
+        
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        viewModel.selectItem(atIndex: indexPath.row)
+    }
+}
+
+extension CoinsTableViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width: CGFloat = view.bounds.width - coinsCollectionViewInsets.left * 2
+        let height: CGFloat = 100
+        
+        return CGSize(width: width, height: height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        coinsCollectionViewInsets
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        coinsCollectionViewInsets.bottom
+    }
     
 }
 

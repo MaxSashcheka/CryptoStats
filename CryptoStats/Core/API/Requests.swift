@@ -29,24 +29,9 @@ class Requests {
 //            decoder.dateDecodingStrategy = .formatted(dateFormatter)
             
             let response = try decoder.decode([CryptoCoin].self, from: data)
-            print(response.first)
             return response
         }
     }
     
-//    struct ImageRequest: DataRequest {
-//        let url: String
-//        var method: HTTPMethod { .get }
-//
-//        func decode(_ data: Data) throws -> UIImage {
-//            guard let image = UIImage(data: data) else {
-//                throw NSError(
-//                    domain: "Invalid responce",
-//                    code: 13,
-//                    userInfo: nil
-//                )
-//            }
-//            return image
-//        }
-//    }
+    
 }

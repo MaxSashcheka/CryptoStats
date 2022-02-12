@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol NetworkService {
+protocol NetworkServiceProtocol {
     func request<Request: DataRequest>(_ request: Request, completion: @escaping (Result<Request.Response, Error>) -> Void)
 }
 
-final class DefaultNetworkService: NetworkService {
+final class NetworkService: NetworkServiceProtocol {
     
     func request<Request: DataRequest>(_ request: Request, completion: @escaping (Result<Request.Response, Error>) -> Void) {
         guard var urlComponent = URLComponents(string: request.url) else {

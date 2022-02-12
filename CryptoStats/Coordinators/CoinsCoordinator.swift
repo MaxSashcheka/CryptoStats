@@ -20,7 +20,9 @@ class CoinsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         
         let viewController = CoinsAssembly.makeCoinsTableScreen()
         viewController.openDetailScreenTransition = { [weak self] in self?.initializeDetailInfoScreenAndShow() }
-        viewController.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 0)
+        viewController.tabBarItem = UITabBarItem(title: "Settings",
+                                                 image: UIImage(systemName: "bitcoinsign.square"),
+                                                 selectedImage: UIImage(systemName: "bitcoinsign.square.fill"))
         navigationController.pushViewController(viewController, animated: false)
     }
     

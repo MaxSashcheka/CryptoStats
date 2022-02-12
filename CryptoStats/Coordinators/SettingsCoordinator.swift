@@ -19,8 +19,11 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
         navigationController.delegate = self
         
         let viewController = SettingsViewController.instaniate()
-        viewController.tabBarItem = UITabBarItem(tabBarSystemItem: .recents, tag: 1)
-        pushViewController(viewController)
+        viewController.tabBarItem = UITabBarItem(title: "Settings",
+                                                 image: UIImage(systemName: "gearshape"),
+                                                 selectedImage: UIImage(systemName: "gearshape.fill"))
+        navigationController.pushViewController(viewController, animated: false)
+
     }
     
     func childDidFinish(_ child: Coordinator?) {
