@@ -9,8 +9,10 @@ import UIKit
 
 class CoinsTableViewController: ViewController {
     
-    var openDetailScreenTransition: VoidClosure?
+    var openDetailScreenTransition: StringClosure?
     var cryptoCoinsAPIDataManager = CryptoCoinsAPIDataManager()
+    
+    var showCryptoCoinDetailsClosure: StringClosure?
     
     @IBOutlet weak var coinsCollectionView: UICollectionView! {
         didSet {
@@ -31,10 +33,6 @@ class CoinsTableViewController: ViewController {
         viewModel.fetchCryptoCoins()
     }
 
-    @IBAction func buttonTapped(_ sender: Any) {
-        openDetailScreenTransition?()
-    }
-    
     func bindData() {
         viewModel.cryptoCoinsViewModels
             .asDriver()
@@ -50,7 +48,7 @@ class CoinsTableViewController: ViewController {
 // MARK: CoinsTableViewController+UITableViewDelegate&UITableViewDataSource
 extension CoinsTableViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.cryptoCoinsViewModels.value.count ?? 0
+        viewModel.cryptoCoinsViewModels.value.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -59,14 +57,13 @@ extension CoinsTableViewController: UICollectionViewDelegate, UICollectionViewDa
             assertionFailure("Can`t deque reusable cell for \(CryptoCoinCell.reuseIdentifier) identifier")
             return UICollectionViewCell()
         }
-        
         cell.viewModel = viewModel.cryptoCoinsViewModels.value[indexPath.row]
-        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        viewModel.selectItem(atIndex: indexPath.row)
+        let cryptoCoinId = viewModel.cryptoCoinsViewModels.value[indexPath.row].id
+        showCryptoCoinDetailsClosure?(cryptoCoinId)
     }
 }
 

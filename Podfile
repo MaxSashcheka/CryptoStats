@@ -3,12 +3,15 @@
 
 target 'CryptoStats' do
   use_frameworks!
+
   # RX
+
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'RxRelay'
 
   # Networking
+
   pod 'Alamofire'
   pod 'AlamofireImage'
   pod 'AlamofireNetworkActivityIndicator'

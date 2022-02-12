@@ -11,23 +11,23 @@ import RxRelay
 
 class CoinsTableViewModel {
     
-    private let networkService: NetworkService
+    private let networkService: NetworkServiceProtocol
 
     var cryptoCoins = [CryptoCoin]()
     var cryptoCoinsViewModels = BehaviorRelay<[CryptoCoinViewModel]>(value: [])
     
     var cryptoCoinClickedClosure: VoidClosure? // Change void to another type
     
-    init(networkService: NetworkService) {
+    init(networkService: NetworkServiceProtocol) {
         self.networkService = networkService
     }
     
     func fetchCryptoCoins() {
-        let request = Requests.CryptoCoinsRequest()
+        let request = Requests.CryptoCoinsRequest(currency: "usd")
         networkService.request(request) { [weak self] result in
             switch result {
             case .success(let coins):
-                print("Success! Fetched \(coins.count) coins")
+                print("SUCCESSFUL RESPONCE! Fetched \(coins.count) coins")
                 self?.cryptoCoins = coins
                 self?.setupCellViewModels()
             case .failure(let error):
@@ -38,7 +38,8 @@ class CoinsTableViewModel {
     
     func setupCellViewModels() {
         let viewModels = cryptoCoins.map { cryptoCoin -> CryptoCoinViewModel in
-            let cellViewModel = CryptoCoinViewModel(imageURL: cryptoCoin.image,
+            let cellViewModel = CryptoCoinViewModel(id: cryptoCoin.id,
+                                                    imageURL: cryptoCoin.image,
                                                     symbol: cryptoCoin.symbol,
                                                     name: cryptoCoin.name,
                                                     currentPrice: cryptoCoin.currentPrice,

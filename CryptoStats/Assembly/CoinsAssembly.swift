@@ -10,7 +10,7 @@ import Foundation
 class CoinsAssembly: Assembly {
     static func makeCoinsTableScreen() -> CoinsTableViewController {
         let viewController = CoinsTableViewController.instaniate()
-        let viewModel = CoinsTableViewModel(networkService: DefaultNetworkService())
+        let viewModel = CoinsTableViewModel(networkService: NetworkService())
         viewController.viewModel = viewModel
         return viewController
     }

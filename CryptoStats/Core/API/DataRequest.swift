@@ -18,10 +18,9 @@ enum HTTPMethod: String {
 protocol DataRequest {
     associatedtype Response
     
-    var url: String { get }
+    var url: String { get set }
     var method: HTTPMethod { get }
-    var headers: [String : String] { get }
-    var queryItems: [String : String] { get }
+    var queryItems: [String : String] { get set }
     
     func decode(_ data: Data) throws -> Response
 }

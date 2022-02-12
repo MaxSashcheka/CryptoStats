@@ -13,5 +13,8 @@ class SettingsViewController: ViewController {
         super.viewDidLoad()
         
     }
+    
+//    CenteredCollectionViewModel
+//    selectedItems.accept(selectedItems.value + [items.value[index]])
 
 }
