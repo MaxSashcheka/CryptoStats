@@ -21,8 +21,7 @@ class Requests {
 //            dateFormatter.dateFormat = "yyyy-mm-dd"
 //            decoder.dateDecodingStrategy = .formatted(dateFormatter)
             
-            let response = try decoder.decode([CryptoCoin].self, from: data)
-            return response
+            return try decoder.decode([CryptoCoin].self, from: data)
         }
         
         init(currency: String) {
@@ -35,15 +34,14 @@ class Requests {
         var url: String
         var method: HTTPMethod { .get }
         var queryItems: [String : String]
-        func decode(_ data: Data) throws -> [CryptoCoin] {
+        func decode(_ data: Data) throws -> CryptoCoinCurrentData {
             let decoder = JSONDecoder()
-            let response = try decoder.decode([CryptoCoin].self, from: data)
-            return response
+            return try decoder.decode(CryptoCoinCurrentData.self, from: data)
         }
         
         init(id: String) {
             self.queryItems = [:]
-            self.url = baseURL + id
+            self.url = baseURL + "/coins/\(id)"
         }
     }
     
