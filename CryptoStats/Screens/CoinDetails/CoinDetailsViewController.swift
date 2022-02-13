@@ -11,9 +11,12 @@ class CoinDetailsViewController: ViewController {
 
     weak var coordinator: CoinsCoordinator?
     
+    var viewModel: CoinDetailsViewModel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        viewModel.fetchDetailInfo()
     }
 
 

@@ -16,7 +16,7 @@ class CoinsTableViewModel {
     var cryptoCoins = [CryptoCoin]()
     var cryptoCoinsViewModels = BehaviorRelay<[CryptoCoinViewModel]>(value: [])
     
-    var cryptoCoinClickedClosure: VoidClosure? // Change void to another type
+    var showCryptoCoinDetailsTransition: StringClosure? 
     
     init(networkService: NetworkServiceProtocol) {
         self.networkService = networkService
@@ -51,6 +51,11 @@ class CoinsTableViewModel {
         }
         
         cryptoCoinsViewModels.accept(viewModels)
+    }
+    
+    func selectItem(atIndex index: Int) {
+        let cryptoCoinId = cryptoCoinsViewModels.value[index].id
+        showCryptoCoinDetailsTransition?(cryptoCoinId)
     }
     
 }

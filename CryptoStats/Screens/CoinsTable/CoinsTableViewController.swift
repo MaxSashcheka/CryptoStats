@@ -62,8 +62,7 @@ extension CoinsTableViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cryptoCoinId = viewModel.cryptoCoinsViewModels.value[indexPath.row].id
-        showCryptoCoinDetailsClosure?(cryptoCoinId)
+        viewModel.selectItem(atIndex: indexPath.row)
     }
 }
 
