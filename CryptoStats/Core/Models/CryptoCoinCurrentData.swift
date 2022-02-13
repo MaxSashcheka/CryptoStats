@@ -11,9 +11,11 @@ struct CryptoCoinCurrentData: Decodable {
     let id: String
     let symbol: String
     let name: String
-    let hashingAlgorithm: String
+    let hashingAlgorithm: String?
     let image: Image
     let description: Description
+    let marketData: MarketData
+    
     
     private enum CodingKeys: String, CodingKey {
         case id = "id"
@@ -22,7 +24,26 @@ struct CryptoCoinCurrentData: Decodable {
         case hashingAlgorithm = "hashing_algorithm"
         case image = "image"
         case description = "description"
+        case marketData = "market_data"
     }
+}
+
+struct MarketData: Decodable {
+    let currentPrice: CurrentPrice
+    let priceChangePerLastDay: Float
+    let priceChangePercentagePerLastDay: Float
+    
+    private enum CodingKeys: String, CodingKey {
+        case currentPrice = "current_price"
+        case priceChangePerLastDay = "price_change_24h"
+        case priceChangePercentagePerLastDay = "price_change_percentage_24h"
+    }
+}
+
+struct CurrentPrice: Decodable {
+    let btc: Float
+    let usd: Float
+    let eth: Float
 }
 
 struct Image: Decodable {
