@@ -15,19 +15,27 @@ class CoinsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         self.navigationController = navigationController
     }
     
+    lazy var backTransition: VoidClosure = { [weak self] in
+        self?.navigationController.popViewController(animated: true)
+    }
+    
     func start() {
         navigationController.delegate = self
         
-        let viewController = CoinsAssembly.makeCoinsTableScreen()
-        viewController.openDetailScreenTransition = { [weak self] in self?.initializeDetailInfoScreenAndShow() }
+        let (viewController, viewModel) = CoinsAssembly.makeCoinsTableScreen()
         viewController.tabBarItem = UITabBarItem(title: "Settings",
                                                  image: UIImage(systemName: "bitcoinsign.square"),
                                                  selectedImage: UIImage(systemName: "bitcoinsign.square.fill"))
+        viewModel.showCryptoCoinDetailsTransition = { [weak self] coinId in
+            self?.initializeDetailInfoScreenAndShow(forCoinId: coinId)
+        }
+        
         navigationController.pushViewController(viewController, animated: false)
     }
     
-    func initializeDetailInfoScreenAndShow() {
-        let viewController = CoinsAssembly.makeCoinDetailsScreen()
+    func initializeDetailInfoScreenAndShow(forCoinId id: String) {
+        let (viewController, viewModel) = CoinsAssembly.makeCoinDetailsScreen(withCoinId: id)
+        
         pushViewController(viewController)
     }
     
@@ -43,15 +51,15 @@ class CoinsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
 
     }
     
-    func navigationController(_ navigationController: UINavigationController,
-                              didShow viewController: UIViewController, animated: Bool) {
-        print(childCoordinators)
-        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
-        if navigationController.viewControllers.contains(fromViewController) { return }
-        
-        if let coinDetailsViewController = fromViewController as? CoinDetailsViewController {
-            childDidFinish(coinDetailsViewController.coordinator)
-        }
-        print(childCoordinators)
-    }
+//    func navigationController(_ navigationController: UINavigationController,
+//                              didShow viewController: UIViewController, animated: Bool) {
+//        print(childCoordinators)
+//        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
+//        if navigationController.viewControllers.contains(fromViewController) { return }
+//
+//        if let coinDetailsViewController = fromViewController as? CoinDetailsViewController {
+//            childDidFinish(coinDetailsViewController.coordinator)
+//        }
+//        print(childCoordinators)
+//    }
 }

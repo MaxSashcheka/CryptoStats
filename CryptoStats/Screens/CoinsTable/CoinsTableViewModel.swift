@@ -11,34 +11,31 @@ import RxRelay
 
 class CoinsTableViewModel {
     
-    private let networkService: NetworkService
+    private let coinsInteractor: CoinsInteractorProtocol
 
     var cryptoCoins = [CryptoCoin]()
     var cryptoCoinsViewModels = BehaviorRelay<[CryptoCoinViewModel]>(value: [])
     
-    var cryptoCoinClickedClosure: VoidClosure? // Change void to another type
+    var showCryptoCoinDetailsTransition: StringClosure? 
     
-    init(networkService: NetworkService) {
-        self.networkService = networkService
+    init(coinsInteractor: CoinsInteractorProtocol) {
+        self.coinsInteractor = coinsInteractor
     }
     
     func fetchCryptoCoins() {
-        let request = Requests.CryptoCoinsRequest()
-        networkService.request(request) { [weak self] result in
-            switch result {
-            case .success(let coins):
-                print("Success! Fetched \(coins.count) coins")
-                self?.cryptoCoins = coins
-                self?.setupCellViewModels()
-            case .failure(let error):
-                print("!!! ERROR: \(error.localizedDescription)")
-            }
+        coinsInteractor.getCryptoCoins(forCurrency: "usd", perPageCount: 30, page: 1) { [weak self] coins in
+            self?.cryptoCoins = coins
+            self?.setupCellViewModels()
+        } failure: { error in
+            print("ERROR! \(error.localizedDescription)")
         }
+
     }
     
     func setupCellViewModels() {
         let viewModels = cryptoCoins.map { cryptoCoin -> CryptoCoinViewModel in
-            let cellViewModel = CryptoCoinViewModel(imageURL: cryptoCoin.image,
+            let cellViewModel = CryptoCoinViewModel(id: cryptoCoin.id,
+                                                    imageURL: cryptoCoin.image,
                                                     symbol: cryptoCoin.symbol,
                                                     name: cryptoCoin.name,
                                                     currentPrice: cryptoCoin.currentPrice,
@@ -50,6 +47,11 @@ class CoinsTableViewModel {
         }
         
         cryptoCoinsViewModels.accept(viewModels)
+    }
+    
+    func selectItem(atIndex index: Int) {
+        let cryptoCoinId = cryptoCoinsViewModels.value[index].id
+        showCryptoCoinDetailsTransition?(cryptoCoinId)
     }
     
 }

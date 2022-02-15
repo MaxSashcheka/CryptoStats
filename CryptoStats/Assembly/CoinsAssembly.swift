@@ -8,16 +8,23 @@
 import Foundation
 
 class CoinsAssembly: Assembly {
-    static func makeCoinsTableScreen() -> CoinsTableViewController {
+    static func makeCoinsTableScreen() -> (CoinsTableViewController, CoinsTableViewModel) {
         let viewController = CoinsTableViewController.instaniate()
-        let viewModel = CoinsTableViewModel(networkService: DefaultNetworkService())
+        
+        let networkService = NetworkService()
+        let coinsInteractor = CoinsInteractor(networkService: networkService)
+        let viewModel = CoinsTableViewModel(coinsInteractor: coinsInteractor)
+        
         viewController.viewModel = viewModel
-        return viewController
+        
+        return (viewController, viewModel)
     }
     
-    static func makeCoinDetailsScreen() -> CoinDetailsViewController {
+    static func makeCoinDetailsScreen(withCoinId coinId: String) -> (CoinDetailsViewController, CoinDetailsViewModel) {
         let viewController = CoinDetailsViewController.instaniate()
+        let viewModel = CoinDetailsViewModel(networkService: NetworkService(), selectedCoinId: coinId)
+        viewController.viewModel = viewModel
         
-        return viewController
+        return (viewController, viewModel)
     }
 }

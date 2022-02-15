@@ -8,6 +8,7 @@
 import UIKit
 
 class CryptoCoinViewModel {
+    let id: String
     let symbol: String
     let name: String
     let imageURL: URL
@@ -16,13 +17,15 @@ class CryptoCoinViewModel {
     let lowestPricePerLastDay: Float
     let priceChangePercentagePerLastDay: Float
     
-    init(imageURL: URL,
+    init(id: String,
+         imageURL: URL,
          symbol: String,
          name: String,
          currentPrice: Float,
          highestPricePerLastDay: Float,
          lowestPricePerLastDay: Float,
          priceChangePercentagePerLastDay: Float) {
+        self.id = id
         self.imageURL = imageURL
         self.symbol = symbol
         self.name = name

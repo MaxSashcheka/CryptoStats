@@ -59,10 +59,10 @@ class CryptoCoinCell: UICollectionViewCell {
 
         backgroundColor = .white
         layer.masksToBounds = false
-        layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2).cgColor
         layer.shadowOffset = .zero
         layer.shadowOpacity = 1
-        layer.shadowRadius = 5
+        layer.shadowRadius = 4
         layer.cornerRadius = 20
         
     }
