@@ -16,4 +16,8 @@ target 'CryptoStats' do
   pod 'AlamofireImage'
   pod 'AlamofireNetworkActivityIndicator'
 
+  # Other
+
+  pod 'SnapKit'
+
 end

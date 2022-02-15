@@ -28,6 +28,11 @@ struct CryptoCoin: Decodable {
         case priceChangePercentagePerLastDay = "price_change_percentage_24h"
     }
     
-    
 }
 
+// MARK: - Closures
+
+extension CryptoCoin {
+    typealias SingleClosure = (CryptoCoin) -> Void
+    typealias MultipleClosure = ([CryptoCoin]) -> Void
+}

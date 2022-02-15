@@ -8,10 +8,12 @@
 import Foundation
 
 class SettingsAssembly: Assembly {
-    static func makeSettingsScreen() -> SettingsViewController {
+    static func makeSettingsScreen() -> (SettingsViewController, SettingsViewModel) {
         let viewController = SettingsViewController.instaniate()
+        let viewModel = SettingsViewModel()
+        viewController.viewModel = viewModel
         
-        return viewController
+        return (viewController, viewModel)
     }
     
 }

@@ -65,6 +65,10 @@ class CoinDetailsViewController: ViewController {
     weak var coordinator: CoinsCoordinator?
     var viewModel: CoinDetailsViewModel!
     
+    override var isTabBarHidden: Bool {
+        return true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -72,7 +76,7 @@ class CoinDetailsViewController: ViewController {
         viewModel.fetchDetailInfo()
     }
     
-    func bindData() {
+    override func bindData() {
         viewModel.coinImageURL
             .asDriver()
             .drive(onNext: { [weak self] url in
