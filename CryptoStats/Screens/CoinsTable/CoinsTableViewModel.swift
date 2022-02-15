@@ -11,29 +11,25 @@ import RxRelay
 
 class CoinsTableViewModel {
     
-    private let networkService: NetworkServiceProtocol
+    private let coinsInteractor: CoinsInteractorProtocol
 
     var cryptoCoins = [CryptoCoin]()
     var cryptoCoinsViewModels = BehaviorRelay<[CryptoCoinViewModel]>(value: [])
     
     var showCryptoCoinDetailsTransition: StringClosure? 
     
-    init(networkService: NetworkServiceProtocol) {
-        self.networkService = networkService
+    init(coinsInteractor: CoinsInteractorProtocol) {
+        self.coinsInteractor = coinsInteractor
     }
     
     func fetchCryptoCoins() {
-        let request = Requests.CryptoCoinsRequest(currency: "usd")
-        networkService.request(request) { [weak self] result in
-            switch result {
-            case .success(let coins):
-                print("SUCCESSFUL RESPONCE! Fetched \(coins.count) coins")
-                self?.cryptoCoins = coins
-                self?.setupCellViewModels()
-            case .failure(let error):
-                print("!!! ERROR: \(error.localizedDescription)")
-            }
+        coinsInteractor.getCryptoCoins(forCurrency: "usd", perPageCount: 30, page: 1) { [weak self] coins in
+            self?.cryptoCoins = coins
+            self?.setupCellViewModels()
+        } failure: { error in
+            print("ERROR! \(error.localizedDescription)")
         }
+
     }
     
     func setupCellViewModels() {

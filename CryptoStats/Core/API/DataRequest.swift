@@ -20,7 +20,7 @@ protocol DataRequest {
     
     var url: String { get set }
     var method: HTTPMethod { get }
-    var queryItems: [String : String] { get set }
+    var queryItems: [String : String] { get }
     
     func decode(_ data: Data) throws -> Response
 }

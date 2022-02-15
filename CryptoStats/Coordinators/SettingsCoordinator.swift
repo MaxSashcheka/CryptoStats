@@ -18,7 +18,7 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
     func start() {
         navigationController.delegate = self
         
-        let viewController = SettingsViewController.instaniate()
+        let (viewController, viewModel) = SettingsAssembly.makeSettingsScreen()
         viewController.tabBarItem = UITabBarItem(title: "Settings",
                                                  image: UIImage(systemName: "gearshape"),
                                                  selectedImage: UIImage(systemName: "gearshape.fill"))

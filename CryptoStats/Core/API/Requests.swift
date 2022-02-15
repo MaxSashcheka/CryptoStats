@@ -13,19 +13,26 @@ class Requests {
     struct CryptoCoinsRequest: DataRequest {
         var url: String
         var method: HTTPMethod { .get }
-        var queryItems: [String : String]
+        var queryItems: [String : String] {
+            [
+                "vs_currency": currency,
+                "per_page": perPageCount,
+                "page": page
+            ]
+        }
         func decode(_ data: Data) throws -> [CryptoCoin] {
             let decoder = JSONDecoder()
-//            decoder.keyDecodingStrategy = .convertFromSnakeCase
-//            let dateFormatter = DateFormatter()
-//            dateFormatter.dateFormat = "yyyy-mm-dd"
-//            decoder.dateDecodingStrategy = .formatted(dateFormatter)
-            
             return try decoder.decode([CryptoCoin].self, from: data)
         }
         
-        init(currency: String) {
-            self.queryItems = ["vs_currency": currency]
+        let currency: String
+        let perPageCount: String
+        let page: String
+        
+        init(currency: String, perPageCount: Int, page: Int) {
+            self.currency = currency
+            self.perPageCount = String(perPageCount)
+            self.page = String(page)
             self.url = baseURL + "/coins/markets"
         }
     }
@@ -33,14 +40,13 @@ class Requests {
     struct CryptoCoinCurrentDataRequest: DataRequest {
         var url: String
         var method: HTTPMethod { .get }
-        var queryItems: [String : String]
+        var queryItems: [String : String] { [:] }
         func decode(_ data: Data) throws -> CryptoCoinCurrentData {
             let decoder = JSONDecoder()
             return try decoder.decode(CryptoCoinCurrentData.self, from: data)
         }
         
         init(id: String) {
-            self.queryItems = [:]
             self.url = baseURL + "/coins/\(id)"
         }
     }
