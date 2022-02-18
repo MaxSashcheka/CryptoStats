@@ -16,4 +16,24 @@ class SettingsAssembly: Assembly {
         return (viewController, viewModel)
     }
     
+    static func makeCurrencyPickerScreen() -> (CurrencyPickerViewController, CurrencyPickerViewModel) {
+        let viewController = CurrencyPickerViewController.instaniate()
+        
+        let networkService = NetworkService()
+        let simpleInteractor = SimpleInteractor(networkService: networkService)
+        
+        let viewModel = CurrencyPickerViewModel(simpleInteractor: simpleInteractor)
+        viewController.viewModel = viewModel
+        
+        return (viewController, viewModel)
+    }
+    
+    static func makeColorThemePickerScreen() -> (ColorThemePickerViewController, ColorThemePickerViewModel) {
+        let viewController = ColorThemePickerViewController.instaniate()
+        let viewModel = ColorThemePickerViewModel()
+        viewController.viewModel = viewModel
+        
+        return (viewController, viewModel)
+    }
+    
 }

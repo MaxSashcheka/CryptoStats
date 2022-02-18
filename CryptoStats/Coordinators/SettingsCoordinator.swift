@@ -22,8 +22,28 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
         viewController.tabBarItem = UITabBarItem(title: "Settings",
                                                  image: UIImage(systemName: "gearshape"),
                                                  selectedImage: UIImage(systemName: "gearshape.fill"))
-        navigationController.pushViewController(viewController, animated: false)
+        
+        viewModel.changeColorTheme = { [weak self] in
+            self?.initializeColorThemePickerScreenAndShow()
+        }
+        viewModel.changeCurrency = { [weak self] in
+            self?.initializeCurrencyPickerScreenAndShow()
+        }
+        
+        pushViewController(viewController)
 
+    }
+    
+    func initializeColorThemePickerScreenAndShow() {
+        let (viewController, viewModel) = SettingsAssembly.makeColorThemePickerScreen()
+        
+        pushViewController(viewController, animated: true)
+    }
+    
+    func initializeCurrencyPickerScreenAndShow() {
+        let (viewController, viewModel) = SettingsAssembly.makeCurrencyPickerScreen()
+        
+        pushViewController(viewController, animated: true)
     }
     
     func childDidFinish(_ child: Coordinator?) {

@@ -10,6 +10,10 @@ import UIKit
 class Requests {
     static let baseURL = "https://api.coingecko.com/api/v3"
     
+    //-----------------------------------
+    //           COINS REQUESTS
+    //-----------------------------------
+    
     struct CryptoCoinsRequest: DataRequest {
         var url: String
         var method: HTTPMethod { .get }
@@ -48,6 +52,26 @@ class Requests {
         
         init(id: String) {
             self.url = baseURL + "/coins/\(id)"
+        }
+    }
+    
+    //-----------------------------------
+    //           SIMPLE REQUESTS
+    //-----------------------------------
+    
+    struct SupportedCurrenciesRequest: DataRequest {
+        var url: String
+        var method: HTTPMethod { .get }
+        var queryItems: [String : String] {
+            [:]
+        }
+        func decode(_ data: Data) throws -> [String] {
+            let decoder = JSONDecoder()
+            return try decoder.decode([String].self, from: data)
+        }
+
+        init() {
+            self.url = baseURL + "/simple/supported_vs_currencies"
         }
     }
     

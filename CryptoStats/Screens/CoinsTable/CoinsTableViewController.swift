@@ -12,7 +12,6 @@ import RxCocoa
 class CoinsTableViewController: ViewController {
     
     var openDetailScreenTransition: StringClosure?
-    
     var showCryptoCoinDetailsClosure: StringClosure?
     
     @IBOutlet weak var coinsCollectionView: UICollectionView! {
