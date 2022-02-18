@@ -17,34 +17,43 @@ class SettingsViewModel {
     var changeCurrency: VoidClosure?
     
     // MARK: - Variables
-    var settingsCellViewModels = BehaviorRelay<[SettingsCellViewModel]>(value: [])
+    var activeSettingsViewModels = BehaviorRelay<[SettingsCellViewModel]>(value: [])
     
     var numberOfItems: Int {
-        settingsCellViewModels.value.count
+        activeSettingsViewModels.value.count
     }
     
     init() {
-        setupSettingsViewModels()
+        setupCellViewModels()
+    }
+    
+    func selectCell(at indexPath: IndexPath) {
+        settingsViewModels[indexPath.row].didSelectClosure?()
     }
     
 }
 
 // MARK: - SettingsViewModel+SetupCellViewModels
+
 private extension SettingsViewModel {
-    func setupSettingsViewModels() {
+    func setupCellViewModels() {
+        activeSettingsViewModels.accept(settingsViewModels)
+    }
+    var settingsViewModels: [SettingsCellViewModel] {
         let colorThemePickerViewModel = SettingsCellViewModel(title: attributedSettingTitle("Change color theme"), image: UIImage(systemName: "eyedropper.halffull"))
         colorThemePickerViewModel.didSelectClosure = changeColorTheme
         
         let currencyPickerViewModel = SettingsCellViewModel(title: attributedSettingTitle("Change current currenccy"), image: UIImage(systemName: "coloncurrencysign.circle"))
         currencyPickerViewModel.didSelectClosure = changeCurrency
         
-        settingsCellViewModels.accept([colorThemePickerViewModel, currencyPickerViewModel])
+        return [colorThemePickerViewModel, currencyPickerViewModel]
     }
     
     func attributedSettingTitle(_ title: String) -> NSAttributedString {
         return NSAttributedString(string: title, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular),
                                                                 .foregroundColor: UIColor.black])
     }
+    
 }
 
 // eyedropper.halffull

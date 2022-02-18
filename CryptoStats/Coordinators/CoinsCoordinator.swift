@@ -39,6 +39,8 @@ class CoinsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         pushViewController(viewController)
     }
     
+    
+    
     func childDidFinish(_ child: Coordinator?) {
         print(childCoordinators)
         for (index, coordinator) in childCoordinators.enumerated() {

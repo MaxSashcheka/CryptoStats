@@ -27,11 +27,11 @@ class SettingsViewController: ViewController {
         
         bindData()
     }
-    
+
     var viewModel: SettingsViewModel!
     
     override func bindData() {
-        viewModel.settingsCellViewModels
+        viewModel.activeSettingsViewModels
             .asObservable()
             .bind(onNext: { [weak self] _ in
                 self?.settingsTableView.reloadData()
@@ -59,9 +59,13 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
                     assertionFailure("Can`t deque reusable cell for identifier \(SettingsCell.reuseIdentifier)")
             return UITableViewCell()
         }
-        cell.viewModel = viewModel.settingsCellViewModels.value[indexPath.row]
+        cell.viewModel = viewModel.activeSettingsViewModels.value[indexPath.row]
 
         return cell
     }
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        viewModel.selectCell(at: indexPath)
+    }
 }
