@@ -31,4 +31,20 @@ extension CoinsInteractor {
             }
         }
     }
+    
+    func getCryptoCoinDetails(coinId: String,
+                              success: @escaping CryptoCoinCurrentData.SingleClosure,
+                              failure: @escaping ErrorClosure) {
+        let request = Requests.CryptoCoinCurrentDataRequest(id: coinId)
+        networkService.request(request) { result in
+            switch result {
+            case .success(let cryptoCoinCurrentData):
+                success(cryptoCoinCurrentData)
+            case .failure(let error):
+                failure(error)
+            }
+        }
+    }
+    
+    
 }

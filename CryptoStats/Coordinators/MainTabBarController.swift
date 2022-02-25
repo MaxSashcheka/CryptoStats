@@ -10,17 +10,16 @@ import UIKit
 class MainTabBarController: UITabBarController {
     
     let coinsCoordinator = CoinsCoordinator(navigationController: UINavigationController())
+    let walletCoordinator = WalletCoordinator(navigationController: UINavigationController())
     let settingsCoordinator = SettingsCoordinator(navigationController: UINavigationController())
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        tabBar.backgroundColor = .secondarySystemBackground
-//        let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
-//        tabBarAppearance.configureWithDefaultBackground()
-
+        
         coinsCoordinator.start()
+        walletCoordinator.start()
         settingsCoordinator.start()
-        viewControllers = [coinsCoordinator.navigationController, settingsCoordinator.navigationController]
+        viewControllers = [coinsCoordinator.navigationController, walletCoordinator.navigationController, settingsCoordinator.navigationController]
     }
 
 }

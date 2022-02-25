@@ -9,7 +9,7 @@ import Foundation
 
 class SettingsAssembly: Assembly {
     static func makeSettingsScreen() -> (SettingsViewController, SettingsViewModel) {
-        let viewController = SettingsViewController.instaniate()
+        let viewController = SettingsViewController()
         let viewModel = SettingsViewModel()
         viewController.viewModel = viewModel
         
@@ -17,7 +17,7 @@ class SettingsAssembly: Assembly {
     }
     
     static func makeCurrencyPickerScreen() -> (CurrencyPickerViewController, CurrencyPickerViewModel) {
-        let viewController = CurrencyPickerViewController.instaniate()
+        let viewController = CurrencyPickerViewController()
         
         let networkService = NetworkService()
         let simpleInteractor = SimpleInteractor(networkService: networkService)
@@ -29,7 +29,7 @@ class SettingsAssembly: Assembly {
     }
     
     static func makeColorThemePickerScreen() -> (ColorThemePickerViewController, ColorThemePickerViewModel) {
-        let viewController = ColorThemePickerViewController.instaniate()
+        let viewController = ColorThemePickerViewController()
         let viewModel = ColorThemePickerViewModel()
         viewController.viewModel = viewModel
         

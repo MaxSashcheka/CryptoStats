@@ -23,18 +23,18 @@ class CoinsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         navigationController.delegate = self
         
         let (viewController, viewModel) = CoinsAssembly.makeCoinsTableScreen()
-        viewController.tabBarItem = UITabBarItem(title: "Settings",
+        viewController.tabBarItem = UITabBarItem(title: "Coins",
                                                  image: UIImage(systemName: "bitcoinsign.square"),
                                                  selectedImage: UIImage(systemName: "bitcoinsign.square.fill"))
-        viewModel.showCryptoCoinDetailsTransition = { [weak self] coinId in
-            self?.initializeDetailInfoScreenAndShow(forCoinId: coinId)
+        viewModel.showCryptoCoinDetailsTransition = { [weak self] cryptoCoinCurrentData in
+            self?.initializeDetailInfoScreenAndShow(withCryptoCoinCurrentData: cryptoCoinCurrentData)
         }
         
         navigationController.pushViewController(viewController, animated: false)
     }
     
-    func initializeDetailInfoScreenAndShow(forCoinId id: String) {
-        let (viewController, viewModel) = CoinsAssembly.makeCoinDetailsScreen(withCoinId: id)
+    func initializeDetailInfoScreenAndShow(withCryptoCoinCurrentData cryptoCoinCurrentData: CryptoCoinCurrentData) {
+        let (viewController, viewModel) = CoinsAssembly.makeCoinDetailsScreen(withCryptoCoinCurrentData: cryptoCoinCurrentData)
         
         pushViewController(viewController)
     }

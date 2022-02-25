@@ -15,8 +15,9 @@ class CoinsTableViewModel {
 
     var cryptoCoins = [CryptoCoin]()
     var cryptoCoinsViewModels = BehaviorRelay<[CryptoCoinViewModel]>(value: [])
+    var isActivityIndicatorShown = BehaviorRelay(value: false)
     
-    var showCryptoCoinDetailsTransition: StringClosure? 
+    var showCryptoCoinDetailsTransition: CryptoCoinCurrentData.SingleClosure?
     
     init(coinsInteractor: CoinsInteractorProtocol) {
         self.coinsInteractor = coinsInteractor
@@ -29,7 +30,10 @@ class CoinsTableViewModel {
         } failure: { error in
             print("ERROR! \(error.localizedDescription)")
         }
-
+    }
+    
+    func fetchCryptoCoin(withId coinId: String) {
+        
     }
     
     func setupCellViewModels() {
@@ -50,8 +54,22 @@ class CoinsTableViewModel {
     }
     
     func selectItem(atIndex index: Int) {
+        isActivityIndicatorShown.accept(true)
+        
         let cryptoCoinId = cryptoCoinsViewModels.value[index].id
-        showCryptoCoinDetailsTransition?(cryptoCoinId)
+        coinsInteractor.getCryptoCoinDetails(coinId: cryptoCoinId) { [weak self] cryptoCoinCurrentData in
+            DispatchQueue.main.async {
+                self?.showCryptoCoinDetailsTransition?(cryptoCoinCurrentData)
+                self?.isActivityIndicatorShown.accept(false)
+            }
+        } failure: { [weak self] error in
+            DispatchQueue.main.async {
+                self?.isActivityIndicatorShown.accept(false)
+                print("Failed to fetch crypto coin current data")
+            }
+
+        }
+        
     }
     
 }

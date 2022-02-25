@@ -9,7 +9,7 @@ import Foundation
 
 class CoinsAssembly: Assembly {
     static func makeCoinsTableScreen() -> (CoinsTableViewController, CoinsTableViewModel) {
-        let viewController = CoinsTableViewController.instaniate()
+        let viewController = CoinsTableViewController()
         
         let networkService = NetworkService()
         let coinsInteractor = CoinsInteractor(networkService: networkService)
@@ -20,9 +20,10 @@ class CoinsAssembly: Assembly {
         return (viewController, viewModel)
     }
     
-    static func makeCoinDetailsScreen(withCoinId coinId: String) -> (CoinDetailsViewController, CoinDetailsViewModel) {
-        let viewController = CoinDetailsViewController.instaniate()
-        let viewModel = CoinDetailsViewModel(networkService: NetworkService(), selectedCoinId: coinId)
+    static func makeCoinDetailsScreen(withCryptoCoinCurrentData cryptoCoinCurrentData: CryptoCoinCurrentData) -> (CoinDetailsViewController, CoinDetailsViewModel) {
+        let viewController = CoinDetailsViewController()
+        let viewModel = CoinDetailsViewModel(cryptoCoinCurrentData: cryptoCoinCurrentData)
+    
         viewController.viewModel = viewModel
         
         return (viewController, viewModel)

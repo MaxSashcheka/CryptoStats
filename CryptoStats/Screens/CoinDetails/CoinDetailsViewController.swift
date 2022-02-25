@@ -11,7 +11,6 @@ import RxSwift
 
 class CoinDetailsViewController: ViewController {
     
-    
     @IBOutlet var contentViews: [UIView]! {
         didSet {
             contentViews.forEach {
@@ -24,7 +23,7 @@ class CoinDetailsViewController: ViewController {
             }
         }
     }
-    
+
     @IBOutlet weak var coinImageView: UIImageView! {
         didSet {
             coinImageView.layer.cornerRadius = 20
@@ -61,6 +60,8 @@ class CoinDetailsViewController: ViewController {
         }
     }
     
+    override var navigationItemTitle: String { titleString }
+    var titleString = ""
     
     weak var coordinator: CoinsCoordinator?
     var viewModel: CoinDetailsViewModel!
@@ -73,7 +74,6 @@ class CoinDetailsViewController: ViewController {
         super.viewDidLoad()
         
         bindData()
-        viewModel.fetchDetailInfo()
     }
     
     override func bindData() {
@@ -83,10 +83,13 @@ class CoinDetailsViewController: ViewController {
                 if let url = url { self?.coinImageView.imageFromUrl(url: url) }
             })
             .disposed(by: disposeBag)
-        
+
         viewModel.symbolText
             .asDriver()
-            .drive(symbolLabel.rx.text)
+            .drive(onNext: { [weak self] symbol in
+                self?.symbolLabel.text = symbol
+                self?.titleString = symbol
+            })
             .disposed(by: disposeBag)
         
         viewModel.nameText

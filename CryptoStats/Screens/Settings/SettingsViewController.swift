@@ -22,6 +22,8 @@ class SettingsViewController: ViewController {
         }
     }
     
+    override var navigationItemTitle: String { "Settings" }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

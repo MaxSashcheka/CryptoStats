@@ -11,4 +11,8 @@ protocol CoinsInteractorProtocol {
     func getCryptoCoins(forCurrency currency: String, perPageCount: Int, page: Int,
                         success: @escaping CryptoCoin.MultipleClosure,
                         failure: @escaping ErrorClosure)
+
+    func getCryptoCoinDetails(coinId: String,
+                              success: @escaping CryptoCoinCurrentData.SingleClosure,
+                              failure: @escaping ErrorClosure)
 }

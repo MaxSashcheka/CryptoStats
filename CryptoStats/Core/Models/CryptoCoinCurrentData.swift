@@ -68,3 +68,8 @@ struct Description: Decodable {
     let vi: String
     let tr: String
 }
+
+extension CryptoCoinCurrentData {
+    typealias SingleClosure = (CryptoCoinCurrentData) -> Void
+    typealias MiltipleClosure = ([CryptoCoinCurrentData]) -> Void
+}

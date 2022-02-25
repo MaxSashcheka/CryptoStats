@@ -11,9 +11,6 @@ import RxCocoa
 
 class CoinsTableViewController: ViewController {
     
-    var openDetailScreenTransition: StringClosure?
-    var showCryptoCoinDetailsClosure: StringClosure?
-    
     @IBOutlet weak var coinsCollectionView: UICollectionView! {
         didSet {
             coinsCollectionView.register(CryptoCoinCell.nib, forCellWithReuseIdentifier: CryptoCoinCell.reuseIdentifier)
@@ -22,11 +19,12 @@ class CoinsTableViewController: ViewController {
         }
     }
     
+    override var navigationItemTitle: String { Constants.Title.title }
+    
     var viewModel: CoinsTableViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = Constants.Title.title
         
         bindData()
         viewModel.fetchCryptoCoins()
@@ -37,6 +35,22 @@ class CoinsTableViewController: ViewController {
             .asDriver()
             .drive(onNext: { [weak self] _ in
                 self?.coinsCollectionView.reloadData()
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.isActivityIndicatorShown
+            .asDriver()
+            .drive(onNext: { [weak self] isShown in
+                guard let self = self else { return }
+                if isShown {
+                   
+                    print("show")
+                    self.showSpinner()
+                } else {
+                    print("hide")
+                   
+                    self.removeSpinner()
+                }
             })
             .disposed(by: disposeBag)
     }
@@ -86,7 +100,7 @@ extension CoinsTableViewController: UICollectionViewDelegateFlowLayout {
 private extension CoinsTableViewController {
     enum Constants {
         enum Title {
-            static let title = "Crypto coins"
+            static let title = "Coins"
         }
         enum View {
             enum CollectionView {
