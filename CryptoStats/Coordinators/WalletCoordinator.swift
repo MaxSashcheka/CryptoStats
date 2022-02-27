@@ -23,7 +23,20 @@ class WalletCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
                                                  image: UIImage(systemName: "wallet.pass"),
                                                  selectedImage: UIImage(systemName: "wallet.pass.fill"))
         
+        viewModel.showAddCoinTransition = { [weak self] in
+            self?.initializeWalletAddCoinScreenAndShow()
+        }
+        
         pushViewController(viewController)
+    }
+    
+    func initializeWalletAddCoinScreenAndShow() {
+        let (viewController, viewModel) = WalletAssembly.makeAddCoinScreen()
+        viewModel.dismissTransition = { [weak self] in
+            self?.navigationController.popViewController(animated: true)
+        }
+        
+        pushViewController(viewController, animated: true)
     }
 
     

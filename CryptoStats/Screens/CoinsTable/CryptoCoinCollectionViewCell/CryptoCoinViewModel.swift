@@ -16,6 +16,7 @@ class CryptoCoinViewModel {
     let highestPricePerLastDay: Float
     let lowestPricePerLastDay: Float
     let priceChangePercentagePerLastDay: Float
+    let marketCapRank: Int
     
     init(id: String,
          imageURL: URL,
@@ -24,7 +25,8 @@ class CryptoCoinViewModel {
          currentPrice: Float,
          highestPricePerLastDay: Float,
          lowestPricePerLastDay: Float,
-         priceChangePercentagePerLastDay: Float) {
+         priceChangePercentagePerLastDay: Float,
+         marketCapRank: Int) {
         self.id = id
         self.imageURL = imageURL
         self.symbol = symbol
@@ -33,5 +35,6 @@ class CryptoCoinViewModel {
         self.highestPricePerLastDay = highestPricePerLastDay
         self.lowestPricePerLastDay = lowestPricePerLastDay
         self.priceChangePercentagePerLastDay = priceChangePercentagePerLastDay
+        self.marketCapRank = marketCapRank
     }
 }

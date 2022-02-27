@@ -61,7 +61,7 @@ class CoinsTableViewController: ViewController {
 // MARK: - CoinsTableViewController+UITableViewDelegate&UITableViewDataSource
 extension CoinsTableViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.cryptoCoinsViewModels.value.count
+        viewModel.numberOfItems
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
