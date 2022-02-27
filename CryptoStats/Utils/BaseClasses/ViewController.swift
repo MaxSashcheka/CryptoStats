@@ -73,4 +73,42 @@ class ViewController: UIViewController {
         backgroundTransperentView = nil
         activityIndicatorContentView = nil
     }
+    
+    func presentToParentViewController(parent: UIViewController) {
+            parent.addChild(self)
+            parent.view.addSubview(self.view)
+        
+            view.backgroundColor = .white
+            view.layer.masksToBounds = false
+            view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3).cgColor
+            view.layer.shadowOffset = .zero
+            view.layer.shadowOpacity = 1
+            view.layer.shadowRadius = 8
+            
+            self.view.snp.makeConstraints { make in
+                make.top.equalToSuperview()
+                make.bottom.equalToSuperview()
+                make.leading.equalToSuperview()
+                make.trailing.equalToSuperview()
+            }
+            
+            self.view.transform = CGAffineTransform(translationX: 0, y: view.bounds.height)
+            UIView.animate(withDuration: 0.28, delay: 0.1, options: .curveEaseInOut, animations: {
+                self.view.transform = CGAffineTransform(translationX: 0, y: 320)
+            }, completion: { _ in
+                self.didMove(toParent: parent)
+            })
+        }
+        
+    func dismissChildViewCont() {
+        willMove(toParent: nil)
+        
+        self.view.transform = CGAffineTransform(translationX: 0, y: 0)
+        UIView.animate(withDuration: 1, delay: 1, options: .curveEaseInOut, animations: {
+            self.view.transform = CGAffineTransform(translationX: 0, y: 0)
+        }, completion: { _ in
+            self.view.removeFromSuperview()
+            self.removeFromParent()
+        })
+    }
 }

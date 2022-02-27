@@ -17,6 +17,10 @@ class CoinsTableViewModel {
     var cryptoCoinsViewModels = BehaviorRelay<[CryptoCoinViewModel]>(value: [])
     var isActivityIndicatorShown = BehaviorRelay(value: false)
     
+    var numberOfItems: Int {
+        cryptoCoinsViewModels.value.count
+    }
+    
     var showCryptoCoinDetailsTransition: CryptoCoinCurrentData.SingleClosure?
     
     init(coinsInteractor: CoinsInteractorProtocol) {
@@ -32,10 +36,6 @@ class CoinsTableViewModel {
         }
     }
     
-    func fetchCryptoCoin(withId coinId: String) {
-        
-    }
-    
     func setupCellViewModels() {
         let viewModels = cryptoCoins.map { cryptoCoin -> CryptoCoinViewModel in
             let cellViewModel = CryptoCoinViewModel(id: cryptoCoin.id,
@@ -45,7 +45,8 @@ class CoinsTableViewModel {
                                                     currentPrice: cryptoCoin.currentPrice,
                                                     highestPricePerLastDay: cryptoCoin.highestPricePerLastDay,
                                                     lowestPricePerLastDay: cryptoCoin.lowestPricePerLastDay,
-                                                    priceChangePercentagePerLastDay: cryptoCoin.priceChangePercentagePerLastDay)
+                                                    priceChangePercentagePerLastDay: cryptoCoin.priceChangePercentagePerLastDay,
+                                                    marketCapRank: cryptoCoin.marketCapRank)
             
             return cellViewModel
         }
